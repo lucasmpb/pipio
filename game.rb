@@ -1,8 +1,6 @@
 require 'gosu'
 require 'singleton'
 require_relative 'state'
-require_relative 'states/start'
-require_relative 'states/gameplay'
 
 # Main game
 class GameWindow < Gosu::Window
@@ -13,25 +11,17 @@ class GameWindow < Gosu::Window
     super SCREEN_WIDHT, SCREEN_HEIGHT
     self.caption = 'Pi-Pio'
 
-    @font = Gosu::Font.new(20)
-
     State.instance.new_state(:start)
   end
 
   def update
     State.instance.object.update
-    case State.instance.state
-    when :start
-
-    when :gameplay
-    when :win
-    when :loose
-    end
   end
 
   def draw
     self.caption = "Pi-Pio #{State.instance.state}"
-    @font.draw('Hello World', SCREEN_WIDHT / 2, SCREEN_HEIGHT / 2, 0)
+
+    State.instance.object.draw
   end
 
   def button_down(id)
